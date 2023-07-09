@@ -4,6 +4,7 @@ from cdcms.models import Employee, Hospital, Patient
 from cdcms.forms import hospital_login_form,patient_registration_form, hospital_registration_form, employee_login_form, employee_registration_form, search_cases_form
 from flask_login import login_user, logout_user, current_user
 from functools import wraps
+import joblib
 from sqlalchemy import func
 
 def login_required(role="ANY"):
@@ -18,6 +19,11 @@ def login_required(role="ANY"):
             return fn(*args, **kwargs)
         return decorated_view
     return wrapper
+
+def predict_disease(symptoms):
+    pipeline = joblib.load('../pipeline.pkl')
+    return pipeline.predict(symptoms)
+
 
 @app.route("/")
 @app.route("/home")
