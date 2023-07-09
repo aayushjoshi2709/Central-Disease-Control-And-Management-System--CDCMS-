@@ -1,0 +1,37 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Dashboard Page
+{% endblock %}
+{% block content %}
+    <div class="container text-center">
+        <h1 class="display-1">Welcome to Dashboard</h1>
+        <h2 class="display-5">Diseases</h2>
+        <table class="table table-striped bg-white">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Disease</th>
+                    <th>Symtoms</th>
+                    <th>Case Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for disease in diseases %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ disease[0] }}</td>
+                        <td>
+                            {% set symptoms = get_unique(disease[1]) %}
+                            {% for symptom in symptoms %}
+                                {% if symptom|length > 0 %}
+                                <span class="m-1 py-1 px-2 border rounded bg-info text-white">{{ symptom }} </span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ disease[2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

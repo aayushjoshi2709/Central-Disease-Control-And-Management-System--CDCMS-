@@ -1,0 +1,51 @@
+<div
+  class="modal fade"
+  id="Modal-MoreInfo-{{loop.index}}"
+  aria-hidden="true"
+  aria-labelledby="Modal-MoreInfo-{{loop.index}}-Label2"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Modal-MoreInfo-{{loop.index}}-Label2">{{patient.name}}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+            <li class="list-group-item">Name: {{patient.name}}</li>
+            <li class="list-group-item">Age: {{patient.age}}</li>
+            <li class="list-group-item">Address: {{patient.address}}</li>
+            <li class="list-group-item">Contact:{{patient.contact}}</li>
+            <li class="list-group-item">Aadhar No: {{patient.aadhar_number}}</li>
+            <li class="list-group-item">Date of Admission: {{patient.date_of_admission}}</li>
+            {% set symptoms = get_unique(patient.symptoms) %}
+            <li class="list-group-item">Symptoms: 
+                {% for symptom in symptoms %}
+                    {% if symptom|length > 0 %}
+                        {{ symptom }},
+                    {% endif %}
+                {% endfor %}
+            </li>
+            <li class="list-group-item">Actual Disease: {{patient.actual_disease}}</li>
+            <li class="list-group-item">Prescribed Medicine: {{patient.medication_given}}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-primary"
+          data-bs-target="#Modal-MoreInfo-{{loop.index}}-Toggle"
+          data-bs-toggle="modal"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

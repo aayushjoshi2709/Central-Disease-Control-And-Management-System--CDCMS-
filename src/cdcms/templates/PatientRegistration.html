@@ -1,0 +1,42 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Patient Registration
+{% endblock %}
+{% block content %}
+    <div class="container text-center my-5 w-md-50 w-50">
+        <form method="POST" class="form-register rounded border-dark p-4 bg-white">
+            {{ form.hidden_tag() }}
+            <h1 class="h2 mb-3 font-weight-normal">
+                Patient Registration
+            </h1>
+            <div class="text-start">
+                {{ form.name.label() }}
+                {{ form.name(class="form-control mb-1", placeholder="Name")}}
+                {{ form.age.label() }}
+                {{ form.age(class="form-control mb-1", placeholder="Age")}}
+                {{ form.aadhar_no.label() }}
+                {{ form.aadhar_no(class="form-control mb-1", placeholder="Aadhar Number")}}
+                {{ form.address.label() }}
+                {{ form.address(class="form-control mb-1", placeholder="Address")}}
+                {{ form.contact.label() }}
+                {{ form.contact(class="form-control mb-1", placeholder="Contact") }}
+                {{ form.symptoms.label() }}
+                {{ form.symptoms(class="form-control mb-1", placeholder="Symptoms") }}
+                {{ form.actual_disease.label() }}
+                {{ form.actual_disease(class="form-control mb-1", placeholder="Actual Disease") }}
+                {{ form.medication_given.label() }}
+                {{ form.medication_given(class="form-control mb-1", placeholder="Medication Given") }}
+                {{ form.date_of_admission.label() }}
+                {{ form.date_of_admission(class="form-control mb-1", placeholder="Date of Admission") }}
+                {{ form.previous_records.label() }}
+                {{ form.previous_records(class="form-check-input", placeholder="Previous Records") }}
+            
+            </div>
+            <br>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <a href="{{ url_for('dashboard_page') }}" class="btn btn-lg btn-block btn-danger">
+                Cancel
+            </a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Home Page
+{% endblock %}
+{% block content %}
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 p-5 bg-image hover-zoom">
+                <a href="{{url_for('hospital_signin_page')}}">
+                    <img style="width: 400px; height: 400px;" class="rounded-circle img-fluid " src="{{url_for('static', filename='images/doctor2.png')}}">
+                </a>
+                <h3 class="display-3">Login as Hopital</h3>
+            </div>
+            <div class="col-md-12 col-lg-6 mt-5 p-5">
+                <a href="{{url_for('doctor_signin_page')}}">
+                    <img style="width: 400px; height: 400px;" class="rounded-circle img-fluid " src="{{url_for('static', filename='images/doctor1.png')}}">
+                </a>
+                <h3 class="display-3">Login as Doctor</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}

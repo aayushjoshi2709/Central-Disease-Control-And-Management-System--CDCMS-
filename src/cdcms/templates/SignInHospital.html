@@ -1,0 +1,26 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Hospital Sign In
+{% endblock %}
+{% block content %}
+<div class="container text-center my-5 w-md-50 w-50">
+    <form method="POST" class="form-register rounded  border-dark p-4 bg-white">
+        {{ form.hidden_tag() }}
+        <h1 class="h2 mb-3 font-weight-normal">
+            Hospital Sign In
+        </h1>
+        <div class="text-start">
+        {{ form.username.label() }}
+        {{ form.username(class="form-control mb-1", placeholder="User Name") }}
+        {{ form.password.label() }}
+        {{ form.password(class="form-control mb-1", placeholder="Password") }}
+        </div>
+        <br>
+        <div class="checkbox mb-3">
+            <h6>Do not have an account?</h6>
+            <a class="btn btn-sm btn-secondary" href="{{url_for('hospital_signup_page')}}">Register</a>
+        </div>
+        {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+    </form>
+</div>
+{% endblock %}

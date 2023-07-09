@@ -1,0 +1,37 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Sign Up Doctor
+{% endblock %}
+{% block content %}
+    <div class="container text-center my-5 w-md-50 w-50">
+        <form method="POST" class="form-register rounded border-dark p-4 bg-white">
+            {{ form.hidden_tag() }}
+            <h1 class="h2 mb-3 font-weight-normal">
+                Doctor Sign Up
+            </h1>
+            <div class="text-start">
+            {{ form.name.label() }}
+            {{ form.name(class="form-control mb-1", placeholder="Name")}}
+            {{ form.designation.label() }}
+            {{ form.designation(class="form-control mb-1", placeholder="designation")}}
+            {{ form.access_level.label() }}
+            {{ form.access_level(class="form-control mb-1", placeholder="access level")}}
+            {{ form.contact.label() }}
+            {{ form.contact(class="form-control mb-1", placeholder="Phone No.")}}
+            {{ form.username.label() }}
+            {{ form.username(class="form-control mb-1", placeholder="User Name") }}
+            {{ form.email.label() }}
+            {{ form.email(class="form-control mb-1", placeholder="Email") }}
+            {{ form.password1.label() }}
+            {{ form.password1(class="form-control mb-1", placeholder="Password") }}
+            {{ form.password2.label() }}
+            {{ form.password2(class="form-control mb-1", placeholder="Confirm Password") }}
+            </div>
+            <br>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <a href="{{ url_for('dashboard_page') }}" class="btn btn-lg btn-block btn-danger">
+                Cancel
+            </a>
+        </form>
+    </div>
+{% endblock %}

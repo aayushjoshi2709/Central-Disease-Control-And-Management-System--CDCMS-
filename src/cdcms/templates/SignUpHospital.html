@@ -1,0 +1,38 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Hospital Sign Up
+{% endblock %}
+{% block content %}
+<div class="container text-center my-5 w-md-50 w-50">
+    <form method="POST" class="form-register rounded border-dark p-4 bg-white">
+        {{ form.hidden_tag() }}
+        <h1 class="h2 mb-3 font-weight-normal">
+            Hospital Sign Up
+        </h1>
+        <div class="text-start">
+            {{ form.name.label() }}
+            {{ form.name(class="form-control mb-1", placeholder="Name")}}
+            {{ form.address.label() }}
+            {{ form.address(class="form-control mb-1", placeholder="Address")}}
+            {{ form.contact.label() }}
+            {{ form.contact(class="form-control mb-1", placeholder="Phone No.")}}
+            {{ form.city.label() }}
+            {{ form.city(class="form-control mb-1", placeholder="City") }}
+            {{ form.username.label() }}
+            {{ form.username(class="form-control mb-1", placeholder="User Name") }}
+            {{ form.email.label() }}
+            {{ form.email(class="form-control mb-1", placeholder="Email") }}
+            {{ form.password1.label() }}
+            {{ form.password1(class="form-control mb-1", placeholder="Password") }}
+            {{ form.password2.label() }}
+            {{ form.password2(class="form-control mb-1", placeholder="Confirm Password") }}
+        </div>
+        <br>
+        <div class="checkbox mb-3">
+            <h6>Already have an account?</h6>
+            <a class="btn btn-sm btn-secondary" href="{{url_for('hospital_signin_page')}}">Login Here</a>
+        </div>
+        {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+        
+    </form>
+{% endblock %}ase.html'}
