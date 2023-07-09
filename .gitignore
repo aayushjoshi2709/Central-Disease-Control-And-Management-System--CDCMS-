@@ -1,3 +1,6 @@
 /env
 /src/cdcms/__pycache__
 /src/instance
+/src/__pycache__
+/src/cron.log
+/src/pipeline.pkl
