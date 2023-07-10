@@ -48,7 +48,7 @@ class hospital_registration_form(FlaskForm):
     contact = StringField(label='Contact ', validators=[Length(min=10,max=10),DataRequired()])
     username = StringField(label='User Name', validators=[Length(min=2,max=30), DataRequired()])
     email = StringField(label='Email Address', validators=[Email(message='Invalid Email Address'), DataRequired()])
-    city = StringField(label='City', validators=[Length(min=6), DataRequired()])
+    city = StringField(label='City', validators=[Length(min=1, max=40), DataRequired()])
     password1 = PasswordField(label='Password', validators=[Length(min=6), DataRequired()])
     password2 = PasswordField(label='Confirm Password', validators=[EqualTo('password1'), DataRequired()])
     submit = SubmitField(label='Create Account')
