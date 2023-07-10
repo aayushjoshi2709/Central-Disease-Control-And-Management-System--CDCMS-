@@ -70,3 +70,7 @@ class search_cases_form(FlaskForm):
     query = StringField(label='Search Query ', validators=[Length(min=2, max=80), DataRequired()])
     type = SelectField(label="Search Type", choices=[('name', 'Name'), ('aadhar_no', 'Aadhar No'), ('contact', 'Contact'), ('actual_disease', 'Actual Disease')], validators=[DataRequired()])
     submit = SubmitField(label='Search')
+
+class search_disease_form(FlaskForm):
+    query = StringField(label='Search Query ', validators=[Length(min=2, max=80), DataRequired()])
+    submit = SubmitField(label='Search')

@@ -1,10 +1,9 @@
 from cdcms import app,db
 from flask import render_template, redirect, url_for, flash, session
 from cdcms.models import Employee, Hospital, Patient
-from cdcms.forms import hospital_login_form,patient_registration_form, hospital_registration_form, employee_login_form, employee_registration_form, search_cases_form
+from cdcms.forms import hospital_login_form,patient_registration_form, search_disease_form, hospital_registration_form, employee_login_form, employee_registration_form, search_cases_form
 from flask_login import login_user, logout_user, current_user
 from functools import wraps
-import joblib
 from sqlalchemy import func
 
 def login_required(role="ANY"):
@@ -20,10 +19,26 @@ def login_required(role="ANY"):
         return decorated_view
     return wrapper
 
-def predict_disease(symptoms):
-    pipeline = joblib.load('../pipeline.pkl')
-    return pipeline.predict(symptoms)
 
+def find_symptom(symptoms, disease_symptoms):
+    found_diseases = []
+    for disease, dis_symptoms in disease_symptoms.items():
+        count = 0
+        symptoms = set(symptoms)
+        for s in dis_symptoms:
+            if s in symptoms:
+                count += 1
+        if count > 0:
+            found_diseases.append((round((count/len(dis_symptoms))*100,2), disease, dis_symptoms))
+    found_diseases.sort(reverse=True)
+    return found_diseases
+
+def predict_disease(symptom):
+    disease_dict = {}
+    diseases = db.session.query(Patient.actual_disease,func.group_concat(Patient.symptoms,";")).group_by(Patient.actual_disease).all()
+    for disease in diseases:
+        disease_dict[disease[0].lower()] = list(map(lambda x: x.strip().lower(), list(set(disease[1].split(";")))))
+    return find_symptom(symptom, disease_dict)
 
 @app.route("/")
 @app.route("/home")
@@ -31,13 +46,12 @@ def home_page():
     return render_template('Home.html')
 
 def get_unique(s):
-    return list(set(s.split(";")))
+    return list(map(lambda x: x.strip().lower(), set(s.split(";"))))
 
 @app.route("/dashboard")
 @login_required(role="ANY")
 def dashboard_page():
     diseases = db.session.query(Patient.actual_disease,func.group_concat(Patient.symptoms,";"),func.count(Patient.id)).group_by(Patient.actual_disease).order_by(func.count(Patient.id).desc()).all()
-    print(diseases)
     return render_template('Dashboard.html', diseases=diseases, get_unique=get_unique)
 
 @app.route("/doctor/signup", methods=['GET', 'POST']) 
@@ -90,7 +104,6 @@ def hospital_signup_page():
                                     password=form.password1.data)
         db.session.add(hospital_to_create)
         db.session.commit()
-        print(hospital_to_create)
         session.permanent = True
         session["type"] = "hospital"
         login_user(hospital_to_create)
@@ -162,6 +175,20 @@ def search_cases_page():
         for err_msg in form.errors.values():
             flash(f'There was an error in searching: {err_msg}', category='danger')
     return render_template('SearchCases.html', form = form, patients=None)
+
+@app.route("/disease/search", methods=['GET', 'POST'])
+@login_required(role="doctor")
+def search_disease_page():
+    form = search_disease_form()
+    if form.validate_on_submit():
+        query = form.query.data
+        symptoms = get_unique(query)
+        diseases = predict_disease(symptoms)
+        return render_template('SearchDisease.html', form = form, diseases=diseases)
+    if len(form.errors) > 0:
+        for err_msg in form.errors.values():
+            flash(f'There was an error in searching: {err_msg}', category='danger')
+    return render_template('SearchDisease.html', form = form, diseases=None)
 
 @app.route("/logout")
 def logout_page():

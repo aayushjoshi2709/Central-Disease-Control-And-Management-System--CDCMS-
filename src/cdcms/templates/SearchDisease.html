@@ -1,0 +1,57 @@
+{% extends 'Base.html' %}
+{% block title %}
+    Search Disease Page
+{% endblock %}
+{% block content %}
+    <div class="container text-center">
+        <h1 class="display-4">Search Disease Page</h1>
+        <form method="POST" class="form-register p-2 w-100 mx-auto bg-white m-3 mb-0 border-bottom">
+            {{ form.hidden_tag() }}
+            <div class="row w-50 mx-auto">
+                <div class="col-3">
+                    <h3 style="font-style: italic; font-weight: 300;">Search:</h3>
+                </div> 
+                <div class="col-7">
+                    {{ form.query(class="form-control mb-1", placeholder="Enter symptoms (Seprated by Semi-Colon(;))") }}
+                </div>
+                <div class="col-2">
+                    {{ form.submit(class="btn btn-md btn-block btn-primary px-4") }}
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped bg-white">
+            {% if diseases!= None %}
+                <thead>
+                    <tr>
+                        <th>Sno</th>
+                        <th>Disease Name</th>
+                        <th>Symptoms</th>
+                        <th>Chances</th>
+                    </tr>
+                </thead>
+                {% if diseases|length > 0 %}
+                    <tbody>
+                        {% for disease in diseases %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ disease[1] }}</td>
+                                <td>
+                                    {% for symptom in disease[2] %}
+                                        <span class="m-1 py-1 px-2 border rounded bg-info text-white">{{ symptom }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>{{ disease[0] }}%</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% else %}
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="text-center">No Cases Found</td>
+                        </tr>
+                    </tbody>
+                {% endif %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
